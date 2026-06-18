@@ -1,17 +1,17 @@
 _Author_: @DamsithAdikari
 _Created_: 2025/01/09 \
-_Updated_: 2025/01/10 \
+_Updated_: 2026/06/17 \\
 _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
 
 This document records the sanitation done on top of the official OpenAPI specification from Hubspot CRM API v3. The OpenAPI specification is obtained from the [Hubspot](https://developers.hubspot.com/docs/reference/api) OpenAPI Documentation. These changes are implemented to enhance the overall usability and readability of the generated client.
 
-
 1. **Change the `url` property of the `servers` object**:
     -  **Original**: `https://api.hubapi.com`
     -  **Sanitized**: `https://api.hubapi.com/crm/v3/objects/companies`
     -  **Reason**: The original URL is too generic and does not provide a clear indication of the API endpoint. The new one improves the consistency and usability of the APIs.
+
 2. **Update API Paths**:
     -  **Original**: Paths included reusable prefixes in each endpoint (e.g., `crm/v3/objects/companies`)
     -  **Updated**: Paths are modified to remove the reusable prefixes from the endpoints, as it is now included in the base URL. For example:

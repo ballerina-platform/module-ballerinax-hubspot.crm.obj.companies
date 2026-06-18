@@ -1,0 +1,2172 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Companies",
+        "description": "",
+        "version": "v3",
+        "x-hubspot-product-tier-requirements": {
+            "marketing": "FREE",
+            "sales": "FREE",
+            "service": "FREE",
+            "cms": "FREE"
+        },
+        "x-hubspot-documentation-banner": "NONE",
+        "x-hubspot-api-use-case": "When a new customer signs up on your website with their business email address, create a company record to represent the relationship between the customer and the company they work for. A sales rep can later use this company record for outreach to find other potential sales opportunities. ",
+        "x-hubspot-related-documentation": [
+            {
+                "name": "Companies Guide",
+                "url": "https://developers.hubspot.com/beta-docs/guides/api/crm/objects/companies"
+            }
+        ],
+        "x-hubspot-introduction": "Use the companies API to create and manage CRM records that represent the companies and organizations that interact with your business."
+    },
+    "servers": [
+        {
+            "url": "https://api.hubapi.com/crm/v3/objects/companies"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Batch"
+        },
+        {
+            "name": "Basic"
+        },
+        {
+            "name": "Merge"
+        },
+        {
+            "name": "Search"
+        }
+    ],
+    "paths": {
+        "/batch/read": {
+            "post": {
+                "tags": [
+                    "Batch"
+                ],
+                "summary": "Read companies by ID or property",
+                "operationId": "post-/crm/v3/objects/companies/batch/read_read",
+                "parameters": [
+                    {
+                        "name": "archived",
+                        "in": "query",
+                        "description": "Whether to return only results that have been archived",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BatchReadInputSimplePublicObjectId"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchResponseSimplePublicObject"
+                                }
+                            }
+                        }
+                    },
+                    "207": {
+                        "description": "multiple statuses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchResponseSimplePublicObjectWithErrors"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.read"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.read"
+                        ]
+                    }
+                ],
+                "description": "Returns a batch of company objects retrieved by internal ID or unique property values, with partial success indicated by a 207 response."
+            }
+        },
+        "/{companyId}": {
+            "get": {
+                "tags": [
+                    "Basic"
+                ],
+                "summary": "Retrieve a company by ID",
+                "description": "Read an Object identified by `{companyId}`. `{companyId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param.",
+                "operationId": "get-/crm/v3/objects/companies/{companyId}_getById",
+                "parameters": [
+                    {
+                        "name": "companyId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the company record to retrieve."
+                    },
+                    {
+                        "name": "properties",
+                        "in": "query",
+                        "description": "A comma separated list of the properties to be returned in the response. If any of the specified properties are not present on the requested object(s), they will be ignored",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "propertiesWithHistory",
+                        "in": "query",
+                        "description": "A comma separated list of the properties to be returned along with their history of previous values. If any of the specified properties are not present on the requested object(s), they will be ignored",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "associations",
+                        "in": "query",
+                        "description": "A comma separated list of object types to retrieve associated IDs for. If any of the specified associations do not exist, they will be ignored",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "archived",
+                        "in": "query",
+                        "description": "Whether to return only results that have been archived",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    {
+                        "name": "idProperty",
+                        "in": "query",
+                        "description": "The name of a property whose values are unique for this object",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SimplePublicObjectWithAssociations"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.read"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.read"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Basic"
+                ],
+                "summary": "Archive a company by ID",
+                "description": "Move an Object identified by `{companyId}` to the recycling bin.",
+                "operationId": "delete-/crm/v3/objects/companies/{companyId}_archive",
+                "parameters": [
+                    {
+                        "name": "companyId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique identifier of the company record to archive."
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content",
+                        "content": {}
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.write"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.write"
+                        ]
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Basic"
+                ],
+                "summary": "Update a company by ID",
+                "description": "Perform a partial update of an Object identified by `{companyId}`or optionally a unique property value as specified by the `idProperty` query param. `{companyId}` refers to the internal object ID by default, and the `idProperty` query param refers to a property whose values are unique for the object. Provided property values will be overwritten. Read-only and non-existent properties will result in an error. Properties values can be cleared by passing an empty string.",
+                "operationId": "patch-/crm/v3/objects/companies/{companyId}_update",
+                "parameters": [
+                    {
+                        "name": "companyId",
+                        "in": "path",
+                        "required": true,
+                        "style": "simple",
+                        "explode": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The unique internal identifier of the company to update."
+                    },
+                    {
+                        "name": "idProperty",
+                        "in": "query",
+                        "description": "The name of a property whose values are unique for this object",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SimplePublicObjectInput"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SimplePublicObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.write"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.write"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/merge": {
+            "post": {
+                "tags": [
+                    "Merge"
+                ],
+                "summary": "Merge two companies with same type",
+                "operationId": "post-/crm/v3/objects/companies/merge_merge",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PublicMergeInput"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SimplePublicObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.write"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.write"
+                        ]
+                    }
+                ],
+                "description": "Returns the merged company object resulting from combining two companies of the same type."
+            }
+        },
+        "/batch/archive": {
+            "post": {
+                "tags": [
+                    "Batch"
+                ],
+                "summary": "Archive a batch of companies by ID",
+                "operationId": "post-/crm/v3/objects/companies/batch/archive_archive",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BatchInputSimplePublicObjectId"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content",
+                        "content": {}
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.write"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.write"
+                        ]
+                    }
+                ],
+                "description": "Archives the specified batch of companies by ID. Returns no content on success (204)."
+            }
+        },
+        "/batch/create": {
+            "post": {
+                "tags": [
+                    "Batch"
+                ],
+                "summary": "Create a batch of companies",
+                "operationId": "post-/crm/v3/objects/companies/batch/create_create",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BatchInputSimplePublicObjectInputForCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchResponseSimplePublicObject"
+                                }
+                            }
+                        }
+                    },
+                    "207": {
+                        "description": "multiple statuses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchResponseSimplePublicObjectWithErrors"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.write"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.write"
+                        ]
+                    }
+                ],
+                "description": "Returns the batch of newly created company objects, with partial success indicated by a 207 response."
+            }
+        },
+        "/batch/update": {
+            "post": {
+                "tags": [
+                    "Batch"
+                ],
+                "summary": "Update companies by ID or property",
+                "operationId": "post-/crm/v3/objects/companies/batch/update_update",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BatchInputSimplePublicObjectBatchInput"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchResponseSimplePublicObject"
+                                }
+                            }
+                        }
+                    },
+                    "207": {
+                        "description": "multiple statuses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchResponseSimplePublicObjectWithErrors"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.write"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.write"
+                        ]
+                    }
+                ],
+                "description": "Returns the batch of updated company objects identified by internal ID or unique property values, with partial success indicated by a 207 response."
+            }
+        },
+        "/": {
+            "get": {
+                "tags": [
+                    "Basic"
+                ],
+                "summary": "List a page of companies",
+                "description": "Read a page of companies. Control what is returned via the `properties` query param.",
+                "operationId": "get-/crm/v3/objects/companies_getPage",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The maximum number of results to display per page",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "description": "The paging cursor token of the last successfully read resource will be returned as the `paging.next.after` JSON property of a paged response containing more results",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "properties",
+                        "in": "query",
+                        "description": "A comma separated list of the properties to be returned in the response. If any of the specified properties are not present on the requested object(s), they will be ignored",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "propertiesWithHistory",
+                        "in": "query",
+                        "description": "A comma separated list of the properties to be returned along with their history of previous values. If any of the specified properties are not present on the requested object(s), they will be ignored. Usage of this parameter will reduce the maximum number of objects that can be read by a single request",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "associations",
+                        "in": "query",
+                        "description": "A comma separated list of object types to retrieve associated IDs for. If any of the specified associations do not exist, they will be ignored",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "archived",
+                        "in": "query",
+                        "description": "Whether to return only results that have been archived",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CollectionResponseSimplePublicObjectWithAssociationsForwardPaging"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.read"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.read"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Basic"
+                ],
+                "summary": "Create a new company",
+                "description": "Create a company with the given properties and return a copy of the object, including the ID. Documentation and examples for creating standard companies is provided.",
+                "operationId": "post-/crm/v3/objects/companies_create",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SimplePublicObjectInputForCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SimplePublicObject"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.write"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.write"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/batch/upsert": {
+            "post": {
+                "tags": [
+                    "Batch"
+                ],
+                "summary": "Upsert companies by property",
+                "description": "Create or update records identified by a unique property value as specified by the `idProperty` query param. `idProperty` query param refers to a property whose values are unique for the object.",
+                "operationId": "post-/crm/v3/objects/companies/batch/upsert_upsert",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BatchInputSimplePublicObjectBatchInputUpsert"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchResponseSimplePublicUpsertObject"
+                                }
+                            }
+                        }
+                    },
+                    "207": {
+                        "description": "multiple statuses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BatchResponseSimplePublicUpsertObjectWithErrors"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.write"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.write"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/search": {
+            "post": {
+                "tags": [
+                    "Search"
+                ],
+                "operationId": "post-/crm/v3/objects/companies/search_doSearch",
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PublicObjectSearchRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CollectionResponseWithTotalSimplePublicObjectForwardPaging"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "$ref": "#/components/responses/Error"
+                    }
+                },
+                "security": [
+                    {
+                        "oauth2": [
+                            "crm.objects.companies.read"
+                        ]
+                    },
+                    {
+                        "private_apps": [
+                            "crm.objects.companies.read"
+                        ]
+                    }
+                ],
+                "x-hubspot-rate-limit-exemptions": [
+                    "ten-secondly"
+                ],
+                "description": "Returns a list of company objects matching the specified search criteria and filters.",
+                "summary": "Search for companies"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StandardError": {
+                "required": [
+                    "category",
+                    "context",
+                    "errors",
+                    "links",
+                    "message",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "subCategory": {
+                        "type": "object",
+                        "properties": {},
+                        "description": "Optional sub-category providing additional error classification."
+                    },
+                    "context": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "description": "Key-value map of contextual metadata related to the error."
+                    },
+                    "links": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Map of relevant links associated with the error response."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier for the error instance."
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": "High-level category classifying the type of error."
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Human-readable message describing the error."
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ErrorDetail"
+                        },
+                        "description": "List of detailed error entries associated with this error."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "HTTP status code or status label for the error."
+                    }
+                },
+                "description": "Standard error response structure returned by the API on failure."
+            },
+            "CollectionResponseAssociatedId": {
+                "required": [
+                    "results"
+                ],
+                "type": "object",
+                "properties": {
+                    "paging": {
+                        "$ref": "#/components/schemas/Paging",
+                        "description": "Pagination details for navigating the result set."
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AssociatedId"
+                        },
+                        "description": "Array of associated IDs returned in the response."
+                    }
+                },
+                "description": "Paginated collection of associated object IDs."
+            },
+            "PublicAssociationsForObject": {
+                "type": "object",
+                "properties": {
+                    "types": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AssociationSpec"
+                        },
+                        "description": "List of association type specifications for the relationship."
+                    },
+                    "to": {
+                        "$ref": "#/components/schemas/PublicObjectId",
+                        "description": "The target object to associate with."
+                    }
+                },
+                "description": "Defines association targets and types for a given object."
+            },
+            "BatchResponseSimplePublicObject": {
+                "required": [
+                    "completedAt",
+                    "results",
+                    "startedAt",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "completedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the batch operation completed."
+                    },
+                    "requestedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the batch operation was requested."
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the batch operation began processing."
+                    },
+                    "links": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Map of additional links related to the batch response."
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObject"
+                        },
+                        "description": "Array of company objects returned by the batch operation."
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "PROCESSING",
+                            "CANCELED",
+                            "COMPLETE"
+                        ],
+                        "description": "Current status of the batch operation."
+                    }
+                },
+                "description": "Batch operation response containing results and execution timestamps."
+            },
+            "FilterGroup": {
+                "required": [
+                    "filters"
+                ],
+                "type": "object",
+                "properties": {
+                    "filters": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Filter"
+                        },
+                        "description": "Array of filter conditions applied within this group."
+                    }
+                },
+                "description": "A group of filters combined to refine search query results."
+            },
+            "ErrorDetail": {
+                "required": [
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "subCategory": {
+                        "type": "string",
+                        "description": "A specific category that contains more specific detail about the error"
+                    },
+                    "code": {
+                        "type": "string",
+                        "description": "The status code associated with the error detail"
+                    },
+                    "in": {
+                        "type": "string",
+                        "description": "The name of the field or parameter in which the error was found"
+                    },
+                    "context": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "description": "Context about the error condition",
+                        "example": {
+                            "missingScopes": [
+                                "scope1",
+                                "scope2"
+                            ]
+                        }
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "A human readable message describing the error along with remediation steps where appropriate"
+                    }
+                },
+                "description": "Detailed information about a specific error encountered in a request."
+            },
+            "ForwardPaging": {
+                "type": "object",
+                "properties": {
+                    "next": {
+                        "$ref": "#/components/schemas/NextPage",
+                        "description": "Cursor and link details for retrieving the next page of results."
+                    }
+                },
+                "description": "Pagination object providing a cursor for forward navigation through results."
+            },
+            "SimplePublicObjectId": {
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the object."
+                    }
+                },
+                "description": "A minimal object representation containing only a unique identifier."
+            },
+            "BatchResponseSimplePublicUpsertObjectWithErrors": {
+                "required": [
+                    "completedAt",
+                    "results",
+                    "startedAt",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "completedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp when the batch operation completed."
+                    },
+                    "numErrors": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Total number of errors encountered during the batch operation."
+                    },
+                    "requestedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp when the batch operation was requested."
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp when the batch operation began processing."
+                    },
+                    "links": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Map of relevant links associated with the batch response."
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicUpsertObject"
+                        },
+                        "description": "Array of upserted company objects returned by the batch operation."
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StandardError"
+                        },
+                        "description": "Array of errors encountered for individual records in the batch."
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "PROCESSING",
+                            "CANCELED",
+                            "COMPLETE"
+                        ],
+                        "description": "Current status of the batch upsert operation."
+                    }
+                },
+                "description": "Batch upsert response including results, status, timestamps, and any errors encountered."
+            },
+            "BatchReadInputSimplePublicObjectId": {
+                "required": [
+                    "inputs",
+                    "properties",
+                    "propertiesWithHistory"
+                ],
+                "type": "object",
+                "properties": {
+                    "propertiesWithHistory": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of properties for which historical values should be returned."
+                    },
+                    "idProperty": {
+                        "type": "string",
+                        "description": "The property to use as the unique identifier for lookup."
+                    },
+                    "inputs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObjectId"
+                        },
+                        "description": "Array of object IDs to retrieve in the batch read."
+                    },
+                    "properties": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of property names to include in the response."
+                    }
+                },
+                "description": "Input schema for a batch read request, specifying object IDs and properties to retrieve."
+            },
+            "BatchResponseSimplePublicUpsertObject": {
+                "required": [
+                    "completedAt",
+                    "results",
+                    "startedAt",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "completedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Datetime when the batch operation completed."
+                    },
+                    "requestedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Datetime when the batch operation was requested."
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Datetime when the batch operation began processing."
+                    },
+                    "links": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Map of relevant links associated with the batch response."
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicUpsertObject"
+                        },
+                        "description": "Array of upserted company objects returned by the batch operation."
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "PROCESSING",
+                            "CANCELED",
+                            "COMPLETE"
+                        ],
+                        "description": "Current processing status of the batch operation."
+                    }
+                },
+                "description": "Batch response containing upserted company objects with processing status and timestamps."
+            },
+            "BatchInputSimplePublicObjectId": {
+                "required": [
+                    "inputs"
+                ],
+                "type": "object",
+                "properties": {
+                    "inputs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObjectId"
+                        },
+                        "description": "Array of company object IDs to process in the batch."
+                    }
+                },
+                "description": "Input schema for a batch operation containing a list of company object IDs."
+            },
+            "ValueWithTimestamp": {
+                "required": [
+                    "sourceType",
+                    "timestamp",
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "sourceId": {
+                        "type": "string",
+                        "description": "Identifier of the source that set this value."
+                    },
+                    "sourceType": {
+                        "type": "string",
+                        "description": "The type of source that provided this value."
+                    },
+                    "sourceLabel": {
+                        "type": "string",
+                        "description": "Human-readable label describing the value's source."
+                    },
+                    "updatedByUserId": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "ID of the user who last updated this value."
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "The property value as a string."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Datetime when this value was last updated."
+                    }
+                },
+                "description": "A property value paired with its source metadata and the timestamp of last update."
+            },
+            "BatchInputSimplePublicObjectBatchInputUpsert": {
+                "required": [
+                    "inputs"
+                ],
+                "type": "object",
+                "properties": {
+                    "inputs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObjectBatchInputUpsert"
+                        },
+                        "description": "Array of company records to upsert in the batch operation."
+                    }
+                },
+                "description": "Input schema for a batch upsert operation containing company objects to create or update."
+            },
+            "CollectionResponseWithTotalSimplePublicObjectForwardPaging": {
+                "required": [
+                    "results",
+                    "total"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Total number of company records matching the request."
+                    },
+                    "paging": {
+                        "$ref": "#/components/schemas/ForwardPaging",
+                        "description": "Forward paging cursor for retrieving the next page of results."
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObject"
+                        },
+                        "description": "Array of company records returned in the current page."
+                    }
+                },
+                "description": "A paginated collection of company records with a total count and forward paging cursor."
+            },
+            "SimplePublicObject": {
+                "required": [
+                    "createdAt",
+                    "id",
+                    "properties",
+                    "updatedAt"
+                ],
+                "type": "object",
+                "properties": {
+                    "createdAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp when the company record was created."
+                    },
+                    "archived": {
+                        "type": "boolean",
+                        "example": false,
+                        "description": "Indicates whether the company record is archived."
+                    },
+                    "archivedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp when the company record was archived."
+                    },
+                    "propertiesWithHistory": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ValueWithTimestamp"
+                            }
+                        },
+                        "description": "Map of property names to their historical values with timestamps."
+                    },
+                    "id": {
+                        "type": "string",
+                        "example": "512",
+                        "description": "The unique identifier of the company record."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string",
+                            "nullable": true
+                        },
+                        "example": {
+                            "property_date": "1572480000000",
+                            "property_radio": "option_1",
+                            "property_number": "17",
+                            "property_string": "value",
+                            "property_checkbox": "false",
+                            "property_dropdown": "choice_b",
+                            "property_multiple_checkboxes": "chocolate;strawberry"
+                        },
+                        "description": "Map of property names to their current values for the company."
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp when the company record was last updated."
+                    }
+                },
+                "example": {
+                    "id": "512",
+                    "properties": {
+                        "city": "Cambridge",
+                        "createdate": "2019-10-30T03:30:17.883Z",
+                        "domain": "biglytics.net",
+                        "hs_lastmodifieddate": "2019-12-07T16:50:06.678Z",
+                        "industry": "Technology",
+                        "name": "Biglytics",
+                        "phone": "(877) 929-0687",
+                        "state": "Massachusetts"
+                    },
+                    "createdAt": "2019-10-30T03:30:17.883Z",
+                    "updatedAt": "2019-12-07T16:50:06.678Z",
+                    "archived": false
+                },
+                "description": "Represents a single company record with its properties, timestamps, and archival status."
+            },
+            "PublicObjectId": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier string of the company object."
+                    }
+                },
+                "description": "Represents a unique identifier for a public company object."
+            },
+            "Paging": {
+                "type": "object",
+                "properties": {
+                    "next": {
+                        "$ref": "#/components/schemas/NextPage",
+                        "description": "Cursor and link information for the next page of results."
+                    },
+                    "prev": {
+                        "$ref": "#/components/schemas/PreviousPage",
+                        "description": "Cursor and link information for the previous page of results."
+                    }
+                },
+                "description": "Pagination metadata containing cursors for navigating to the next or previous page."
+            },
+            "PublicObjectSearchRequest": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Full-text search query string to match against company records."
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Maximum number of results to return in the response."
+                    },
+                    "after": {
+                        "type": "string",
+                        "description": "Cursor token for retrieving the next page of results."
+                    },
+                    "sorts": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of property names to sort results by."
+                    },
+                    "properties": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of property names to include in the response."
+                    },
+                    "filterGroups": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FilterGroup"
+                        },
+                        "description": "Groups of filters used to narrow search results."
+                    }
+                },
+                "description": "Request payload for searching company records with filters, sorting, and pagination."
+            },
+            "Error": {
+                "required": [
+                    "category",
+                    "correlationId",
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "subCategory": {
+                        "type": "string",
+                        "description": "A specific category that contains more specific detail about the error"
+                    },
+                    "context": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "description": "Context about the error condition",
+                        "example": {
+                            "missingScopes": [
+                                "scope1",
+                                "scope2"
+                            ],
+                            "invalidPropertyName": [
+                                "propertyValue"
+                            ]
+                        }
+                    },
+                    "correlationId": {
+                        "type": "string",
+                        "description": "A unique identifier for the request. Include this value with any error reports or support tickets",
+                        "format": "uuid",
+                        "example": "aeb5f871-7f07-4993-9211-075dc63e7cbf"
+                    },
+                    "links": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "A map of link names to associated URIs containing documentation about the error or recommended remediation steps",
+                        "example": {
+                            "knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"
+                        }
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "A human readable message describing the error along with remediation steps where appropriate",
+                        "example": "Invalid input (details will vary based on the error)"
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": "The error category",
+                        "example": "VALIDATION_ERROR"
+                    },
+                    "errors": {
+                        "type": "array",
+                        "description": "further information about the error",
+                        "items": {
+                            "$ref": "#/components/schemas/ErrorDetail"
+                        }
+                    }
+                },
+                "example": {
+                    "message": "Invalid input (details will vary based on the error)",
+                    "correlationId": "aeb5f871-7f07-4993-9211-075dc63e7cbf",
+                    "category": "VALIDATION_ERROR",
+                    "links": {
+                        "knowledge-base": "https://www.hubspot.com/products/service/knowledge-base"
+                    }
+                },
+                "description": "Represents an API error response, including a category, message, correlation ID, and optional context details."
+            },
+            "SimplePublicObjectBatchInputUpsert": {
+                "required": [
+                    "id",
+                    "properties"
+                ],
+                "type": "object",
+                "properties": {
+                    "idProperty": {
+                        "type": "string",
+                        "description": "The property name used as the unique identifier for the upsert."
+                    },
+                    "objectWriteTraceId": {
+                        "type": "string",
+                        "description": "Trace identifier for tracking the write operation."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the company record to upsert."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Key-value map of company property names and their values."
+                    }
+                },
+                "description": "Input payload for upserting a single company record in a batch operation, including its ID and properties."
+            },
+            "BatchResponseSimplePublicObjectWithErrors": {
+                "required": [
+                    "completedAt",
+                    "results",
+                    "startedAt",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "completedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the batch operation completed."
+                    },
+                    "numErrors": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Total number of errors encountered during the batch operation."
+                    },
+                    "requestedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the batch operation was requested."
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the batch operation started processing."
+                    },
+                    "links": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Map of relevant link names to their associated URIs."
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObject"
+                        },
+                        "description": "List of successfully processed company objects from the batch."
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StandardError"
+                        },
+                        "description": "List of errors encountered for individual records in the batch."
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "PROCESSING",
+                            "CANCELED",
+                            "COMPLETE"
+                        ],
+                        "description": "Current processing status of the batch operation."
+                    }
+                },
+                "description": "Batch operation response containing company results, processing status, timestamps, and any errors encountered."
+            },
+            "SimplePublicObjectInput": {
+                "required": [
+                    "properties"
+                ],
+                "type": "object",
+                "properties": {
+                    "objectWriteTraceId": {
+                        "type": "string",
+                        "description": "Trace identifier for tracking the write operation."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "example": {
+                            "property_date": "1572480000000",
+                            "property_radio": "option_1",
+                            "property_number": "17",
+                            "property_string": "value",
+                            "property_checkbox": "false",
+                            "property_dropdown": "choice_b",
+                            "property_multiple_checkboxes": "chocolate;strawberry"
+                        },
+                        "description": "Key-value map of company property names and their values."
+                    }
+                },
+                "example": {
+                    "properties": {
+                        "city": "Cambridge",
+                        "name": "Biglytics",
+                        "phone": "(877) 929-0687",
+                        "state": "Massachusetts",
+                        "domain": "biglytics.net",
+                        "industry": "Technology"
+                    },
+                    "associations": [
+                        {
+                            "to": {
+                                "id": "101"
+                            },
+                            "types": [
+                                {
+                                    "associationCategory": "HUBSPOT_DEFINED",
+                                    "associationTypeId": 2
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "description": "Input payload for creating or updating a company object with its properties."
+            },
+            "CollectionResponseSimplePublicObjectWithAssociationsForwardPaging": {
+                "required": [
+                    "results"
+                ],
+                "type": "object",
+                "properties": {
+                    "paging": {
+                        "$ref": "#/components/schemas/ForwardPaging",
+                        "description": "Forward paging cursor for retrieving the next results page."
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObjectWithAssociations"
+                        },
+                        "description": "Array of company objects returned in the current page."
+                    }
+                },
+                "description": "Paginated collection of company objects including their associations."
+            },
+            "AssociationSpec": {
+                "type": "object",
+                "properties": {
+                    "associationCategory": {
+                        "type": "string",
+                        "enum": [
+                            "HUBSPOT_DEFINED",
+                            "USER_DEFINED",
+                            "INTEGRATOR_DEFINED"
+                        ],
+                        "description": "The category that defines the association's origin or ownership."
+                    },
+                    "associationTypeId": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Numeric identifier for the specific association type."
+                    }
+                },
+                "description": "Defines the category and type of an association between objects."
+            },
+            "PublicMergeInput": {
+                "required": [
+                    "objectIdToMerge",
+                    "primaryObjectId"
+                ],
+                "type": "object",
+                "properties": {
+                    "objectIdToMerge": {
+                        "type": "string",
+                        "description": "ID of the secondary company to be merged and removed."
+                    },
+                    "primaryObjectId": {
+                        "type": "string",
+                        "description": "ID of the primary company that will be retained after merge."
+                    }
+                },
+                "description": "Input payload specifying the two company records to merge."
+            },
+            "SimplePublicObjectWithAssociations": {
+                "required": [
+                    "createdAt",
+                    "id",
+                    "properties",
+                    "updatedAt"
+                ],
+                "type": "object",
+                "properties": {
+                    "associations": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/CollectionResponseAssociatedId"
+                        },
+                        "description": "Map of associated object collections keyed by association type."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the company record was created."
+                    },
+                    "archived": {
+                        "type": "boolean",
+                        "description": "Indicates whether the company record is archived."
+                    },
+                    "archivedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the company record was archived."
+                    },
+                    "propertiesWithHistory": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ValueWithTimestamp"
+                            }
+                        },
+                        "description": "Map of property names to their historical values with timestamps."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the company record."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string",
+                            "nullable": true
+                        },
+                        "description": "Key-value map of the company's current property values."
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp of the last update to the object."
+                    }
+                },
+                "example": {
+                    "properties": {
+                        "city": "Cambridge",
+                        "createdate": "2019-10-30T03:30:17.883Z",
+                        "domain": "biglytics.net",
+                        "hs_lastmodifieddate": "2019-12-07T16:50:06.678Z",
+                        "industry": "Technology",
+                        "name": "Biglytics",
+                        "phone": "(877) 929-0687",
+                        "state": "Massachusetts"
+                    }
+                },
+                "description": "A company object including its properties, associations, and timestamps."
+            },
+            "Filter": {
+                "required": [
+                    "operator",
+                    "propertyName"
+                ],
+                "type": "object",
+                "properties": {
+                    "highValue": {
+                        "type": "string",
+                        "description": "Upper bound value for BETWEEN range filter operations."
+                    },
+                    "propertyName": {
+                        "type": "string",
+                        "description": "The company property name to evaluate in the filter."
+                    },
+                    "values": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of values used with IN or NOT_IN filter operators."
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "The single value to compare against the specified property."
+                    },
+                    "operator": {
+                        "type": "string",
+                        "description": "Comparison operator that defines how the property is evaluated against the value.",
+                        "enum": [
+                            "EQ",
+                            "NEQ",
+                            "LT",
+                            "LTE",
+                            "GT",
+                            "GTE",
+                            "BETWEEN",
+                            "IN",
+                            "NOT_IN",
+                            "HAS_PROPERTY",
+                            "NOT_HAS_PROPERTY",
+                            "CONTAINS_TOKEN",
+                            "NOT_CONTAINS_TOKEN"
+                        ]
+                    }
+                },
+                "description": "Defines a filter condition used to query company records by property, operator, and value."
+            },
+            "BatchInputSimplePublicObjectBatchInput": {
+                "required": [
+                    "inputs"
+                ],
+                "type": "object",
+                "properties": {
+                    "inputs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObjectBatchInput"
+                        },
+                        "description": "Array of company property update payloads to process in batch."
+                    }
+                },
+                "description": "Wraps a collection of company update inputs for batch processing."
+            },
+            "BatchInputSimplePublicObjectInputForCreate": {
+                "required": [
+                    "inputs"
+                ],
+                "type": "object",
+                "properties": {
+                    "inputs": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SimplePublicObjectInputForCreate"
+                        },
+                        "description": "Array of company creation payloads to process in batch."
+                    }
+                },
+                "description": "Wraps a collection of company creation inputs for batch processing."
+            },
+            "PreviousPage": {
+                "required": [
+                    "before"
+                ],
+                "type": "object",
+                "properties": {
+                    "before": {
+                        "type": "string",
+                        "description": "Cursor token representing the start of the previous page."
+                    },
+                    "link": {
+                        "type": "string",
+                        "description": "Navigable URL link to the previous page of results."
+                    }
+                },
+                "description": "Pagination cursor reference pointing to the previous page of results."
+            },
+            "SimplePublicUpsertObject": {
+                "required": [
+                    "createdAt",
+                    "id",
+                    "new",
+                    "properties",
+                    "updatedAt"
+                ],
+                "type": "object",
+                "properties": {
+                    "createdAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp when the company record was created."
+                    },
+                    "archived": {
+                        "type": "boolean",
+                        "description": "Indicates whether the company record is archived."
+                    },
+                    "archivedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp when the company record was archived."
+                    },
+                    "new": {
+                        "type": "boolean",
+                        "description": "Indicates whether the record was created new during the upsert."
+                    },
+                    "propertiesWithHistory": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/ValueWithTimestamp"
+                            }
+                        },
+                        "description": "Map of property names to their historical values with timestamps."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the upserted company object."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Key-value map of company property names to their values."
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "datetime",
+                        "description": "Timestamp indicating when the company record was last updated."
+                    }
+                },
+                "description": "Represents a company record returned after an upsert operation, indicating whether it was newly created."
+            },
+            "SimplePublicObjectBatchInput": {
+                "required": [
+                    "id",
+                    "properties"
+                ],
+                "type": "object",
+                "properties": {
+                    "idProperty": {
+                        "type": "string",
+                        "example": "my_unique_property_name",
+                        "description": "Name of a unique property used to identify the company instead of the default record ID."
+                    },
+                    "objectWriteTraceId": {
+                        "type": "string",
+                        "description": "Trace identifier for tracking the write operation."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the company record to update."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Key-value map of company property names to their updated values."
+                    }
+                },
+                "example": {
+                    "id": "1",
+                    "properties": {
+                        "city": "Cambridge",
+                        "name": "Biglytics",
+                        "phone": "(877) 929-0687",
+                        "state": "Massachusetts",
+                        "domain": "biglytics.net",
+                        "industry": "Technology"
+                    }
+                },
+                "description": "Input payload for updating a single company in a batch operation, including its identifier and property values."
+            },
+            "AssociatedId": {
+                "required": [
+                    "id",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Unique identifier of the associated object."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "Type label describing the nature of the association."
+                    }
+                },
+                "description": "Represents an associated object reference, defined by its ID and association type."
+            },
+            "NextPage": {
+                "required": [
+                    "after"
+                ],
+                "type": "object",
+                "properties": {
+                    "link": {
+                        "type": "string",
+                        "example": "?after=NTI1Cg%3D%3D",
+                        "description": "Relative URL to fetch the next page of results."
+                    },
+                    "after": {
+                        "type": "string",
+                        "example": "NTI1Cg%3D%3D",
+                        "description": "Cursor token representing the position after the last returned result."
+                    }
+                },
+                "example": {
+                    "after": "NTI1Cg%3D%3D",
+                    "link": "?after=NTI1Cg%3D%3D"
+                },
+                "description": "Pagination cursor object used to retrieve the next page of results."
+            },
+            "SimplePublicObjectInputForCreate": {
+                "required": [
+                    "properties"
+                ],
+                "type": "object",
+                "properties": {
+                    "associations": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PublicAssociationsForObject"
+                        },
+                        "description": "List of associations linking the new company to other CRM objects."
+                    },
+                    "objectWriteTraceId": {
+                        "type": "string",
+                        "description": "Trace identifier for tracking the write operation."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Key-value map of company property names to their initial values."
+                    }
+                },
+                "example": {
+                    "properties": {
+                        "city": "Cambridge",
+                        "name": "Biglytics",
+                        "phone": "(877) 929-0687",
+                        "state": "Massachusetts",
+                        "domain": "biglytics.net",
+                        "industry": "Technology"
+                    },
+                    "associations": [
+                        {
+                            "to": {
+                                "id": "101"
+                            },
+                            "types": [
+                                {
+                                    "associationCategory": "HUBSPOT_DEFINED",
+                                    "associationTypeId": 2
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "description": "Input payload for creating a new company, including its properties and optional associations."
+            }
+        },
+        "responses": {
+            "Error": {
+                "description": "An error occurred.",
+                "content": {
+                    "*/*": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "oauth2_legacy": {
+                "type": "oauth2",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": "https://app.hubspot.com/oauth/authorize",
+                        "tokenUrl": "https://api.hubapi.com/oauth/v1/token",
+                        "scopes": {
+                            "crm.objects.goals.read": "Read goals",
+                            "tickets": "Read and write tickets",
+                            "crm.objects.custom.read": "View custom object records",
+                            "e-commerce": "e-commerce",
+                            "crm.objects.custom.write": "Change custom object records",
+                            "media_bridge.read": "Read media and media events"
+                        }
+                    }
+                }
+            },
+            "oauth2": {
+                "type": "oauth2",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": "https://app.hubspot.com/oauth/authorize",
+                        "tokenUrl": "https://api.hubapi.com/oauth/v1/token",
+                        "scopes": {
+                            "crm.objects.companies.write": " ",
+                            "crm.objects.contacts.write": " ",
+                            "crm.objects.users.write": "Write User CRM objects",
+                            "crm.objects.commercepayments.read": "Read the COMMERCE_PAYMENT object.",
+                            "crm.objects.leads.write": "Modify lead objects",
+                            "crm.objects.subscriptions.read": "Read Commerce Subscriptions",
+                            "crm.objects.carts.read": "Read carts",
+                            "crm.objects.orders.write": "Write orders",
+                            "crm.objects.quotes.read": "Quotes",
+                            "crm.objects.services.read": "Read services",
+                            "crm.objects.orders.read": "Read Orders",
+                            "crm.objects.contacts.read": " ",
+                            "crm.objects.listings.read": "Read listings",
+                            "crm.objects.carts.write": "Write cart",
+                            "crm.objects.courses.write": "Write courses",
+                            "crm.objects.quotes.write": "Quotes",
+                            "crm.objects.users.read": "Read User CRM objects",
+                            "crm.objects.companies.read": " ",
+                            "crm.objects.appointments.read": "Read appointments",
+                            "crm.objects.partner-clients.write": "Modify Partner Client CRM objects",
+                            "crm.objects.leads.read": "Read lead objects",
+                            "crm.objects.appointments.write": "Write appointments",
+                            "crm.objects.services.write": "Write services",
+                            "crm.objects.line_items.read": "Line Items",
+                            "crm.objects.courses.read": "Read courses",
+                            "crm.objects.deals.read": " ",
+                            "crm.objects.invoices.read": "Read invoices objects",
+                            "crm.objects.partner-clients.read": "View Partner Client CRM objects",
+                            "crm.objects.deals.write": " ",
+                            "crm.objects.line_items.write": "Line Items",
+                            "crm.objects.listings.write": "Write listings"
+                        }
+                    }
+                }
+            },
+            "private_apps_legacy": {
+                "type": "apiKey",
+                "name": "private-app-legacy",
+                "in": "header",
+                "x-ballerina-name": "privateAppLegacy"
+            },
+            "private_apps": {
+                "type": "apiKey",
+                "name": "private-app",
+                "in": "header",
+                "x-ballerina-name": "privateApp"
+            }
+        }
+    },
+    "x-hubspot-available-client-libraries": [
+        "PHP",
+        "Node",
+        "Ruby",
+        "Python"
+    ],
+    "x-hubspot-product-tier-requirements": {
+        "marketing": "FREE",
+        "sales": "FREE",
+        "service": "FREE",
+        "cms": "FREE"
+    },
+    "x-hubspot-documentation-banner": "NONE"
+}

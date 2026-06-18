@@ -28,7 +28,7 @@ public isolated client class Client {
     # + config - The configurations to be used when initializing the `connector` 
     # + serviceUrl - URL of the target service 
     # + return - An error if connector initialization failed 
-    public isolated function init(ConnectionConfig config, string serviceUrl = "https://api.hubapi.com/crm/v3/objects") returns error? {
+    public isolated function init(ConnectionConfig config, string serviceUrl = "https://api.hubapi.com/crm/v3/objects/companies") returns error? {
         http:ClientConfiguration httpClientConfig = {httpVersion: config.httpVersion, http1Settings: config.http1Settings, http2Settings: config.http2Settings, timeout: config.timeout, forwarded: config.forwarded, followRedirects: config.followRedirects, poolConfig: config.poolConfig, cache: config.cache, compression: config.compression, circuitBreaker: config.circuitBreaker, retryConfig: config.retryConfig, cookieConfig: config.cookieConfig, responseLimits: config.responseLimits, secureSocket: config.secureSocket, proxy: config.proxy, socketConfig: config.socketConfig, validation: config.validation, laxDataBinding: config.laxDataBinding};
         if config.auth is ApiKeysConfig {
             self.apiKeyConfig = (<ApiKeysConfig>config.auth).cloneReadOnly();
@@ -39,13 +39,13 @@ public isolated client class Client {
         self.clientEp = check new (serviceUrl, httpClientConfig);
     }
 
-    # Read a batch of companies by internal ID, or unique property values
+    # Read companies by ID or property
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function post companies/batch/read(BatchReadInputSimplePublicObjectId payload, map<string|string[]> headers = {}, *PostCrmV3ObjectsCompaniesBatchReadReadQueries queries) returns BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error {
-        string resourcePath = string `/companies/batch/read`;
+    resource isolated function post batch/read(BatchReadInputSimplePublicObjectId payload, map<string|string[]> headers = {}, *PostCrmV3ObjectsCompaniesBatchReadReadQueries queries) returns BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error {
+        string resourcePath = string `/batch/read`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -58,13 +58,14 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read
+    # Retrieve a company by ID
     #
+    # + companyId - The unique identifier of the company record to retrieve.
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get companies/[string companyId](map<string|string[]> headers = {}, *GetCrmV3ObjectsCompaniesCompanyIdGetByIdQueries queries) returns SimplePublicObjectWithAssociations|error {
-        string resourcePath = string `/companies/${getEncodedUri(companyId)}`;
+    resource isolated function get [string companyId](map<string|string[]> headers = {}, *GetCrmV3ObjectsCompaniesCompanyIdGetByIdQueries queries) returns SimplePublicObjectWithAssociations|error {
+        string resourcePath = string `/${getEncodedUri(companyId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -75,12 +76,13 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Archive
+    # Archive a company by ID
     #
+    # + companyId - The unique identifier of the company record to archive.
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function delete companies/[string companyId](map<string|string[]> headers = {}) returns error? {
-        string resourcePath = string `/companies/${getEncodedUri(companyId)}`;
+    resource isolated function delete [string companyId](map<string|string[]> headers = {}) returns error? {
+        string resourcePath = string `/${getEncodedUri(companyId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -89,13 +91,14 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Update
+    # Update a company by ID
     #
+    # + companyId - The unique internal identifier of the company to update.
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function patch companies/[string companyId](SimplePublicObjectInput payload, map<string|string[]> headers = {}, *PatchCrmV3ObjectsCompaniesCompanyIdUpdateQueries queries) returns SimplePublicObject|error {
-        string resourcePath = string `/companies/${getEncodedUri(companyId)}`;
+    resource isolated function patch [string companyId](SimplePublicObjectInput payload, map<string|string[]> headers = {}, *PatchCrmV3ObjectsCompaniesCompanyIdUpdateQueries queries) returns SimplePublicObject|error {
+        string resourcePath = string `/${getEncodedUri(companyId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -112,8 +115,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post companies/merge(PublicMergeInput payload, map<string|string[]> headers = {}) returns SimplePublicObject|error {
-        string resourcePath = string `/companies/merge`;
+    resource isolated function post merge(PublicMergeInput payload, map<string|string[]> headers = {}) returns SimplePublicObject|error {
+        string resourcePath = string `/merge`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -129,8 +132,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function post companies/batch/archive(BatchInputSimplePublicObjectId payload, map<string|string[]> headers = {}) returns error? {
-        string resourcePath = string `/companies/batch/archive`;
+    resource isolated function post batch/archive(BatchInputSimplePublicObjectId payload, map<string|string[]> headers = {}) returns error? {
+        string resourcePath = string `/batch/archive`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -146,8 +149,8 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post companies/batch/create(BatchInputSimplePublicObjectInputForCreate payload, map<string|string[]> headers = {}) returns BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error {
-        string resourcePath = string `/companies/batch/create`;
+    resource isolated function post batch/create(BatchInputSimplePublicObjectInputForCreate payload, map<string|string[]> headers = {}) returns BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error {
+        string resourcePath = string `/batch/create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -159,12 +162,12 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Update a batch of companies by internal ID, or unique property values
+    # Update companies by ID or property
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post companies/batch/update(BatchInputSimplePublicObjectBatchInput payload, map<string|string[]> headers = {}) returns BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error {
-        string resourcePath = string `/companies/batch/update`;
+    resource isolated function post batch/update(BatchInputSimplePublicObjectBatchInput payload, map<string|string[]> headers = {}) returns BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error {
+        string resourcePath = string `/batch/update`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -176,13 +179,13 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # List
+    # List a page of companies
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get companies(map<string|string[]> headers = {}, *GetCrmV3ObjectsCompaniesGetPageQueries queries) returns CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error {
-        string resourcePath = string `/companies`;
+    resource isolated function get .(map<string|string[]> headers = {}, *GetCrmV3ObjectsCompaniesGetPageQueries queries) returns CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error {
+        string resourcePath = string `/`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -193,12 +196,12 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Create
+    # Create a new company
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post companies(SimplePublicObjectInputForCreate payload, map<string|string[]> headers = {}) returns SimplePublicObject|error {
-        string resourcePath = string `/companies`;
+    resource isolated function post .(SimplePublicObjectInputForCreate payload, map<string|string[]> headers = {}) returns SimplePublicObject|error {
+        string resourcePath = string `/`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -210,12 +213,12 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Create or update a batch of companies by unique property values
+    # Upsert companies by property
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post companies/batch/upsert(BatchInputSimplePublicObjectBatchInputUpsert payload, map<string|string[]> headers = {}) returns BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors|error {
-        string resourcePath = string `/companies/batch/upsert`;
+    resource isolated function post batch/upsert(BatchInputSimplePublicObjectBatchInputUpsert payload, map<string|string[]> headers = {}) returns BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors|error {
+        string resourcePath = string `/batch/upsert`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
@@ -227,10 +230,12 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
+    # Search for companies
+    #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
-    resource isolated function post companies/search(PublicObjectSearchRequest payload, map<string|string[]> headers = {}) returns CollectionResponseWithTotalSimplePublicObjectForwardPaging|error {
-        string resourcePath = string `/companies/search`;
+    resource isolated function post search(PublicObjectSearchRequest payload, map<string|string[]> headers = {}) returns CollectionResponseWithTotalSimplePublicObjectForwardPaging|error {
+        string resourcePath = string `/search`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
             headerValues["private-app"] = self.apiKeyConfig?.privateApp;
