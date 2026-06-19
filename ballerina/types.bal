@@ -35,31 +35,31 @@ public type GetCrmV3ObjectsCompaniesGetPageQueries record {
     string[] properties?;
 };
 
-# Standard error response structure returned by the API on failure.
+# Standard error response structure returned by the API on failure
 public type StandardError record {
-    # Optional sub-category providing additional error classification.
+    # Optional sub-category providing additional error classification
     record {} subCategory?;
-    # Key-value map of contextual metadata related to the error.
+    # Key-value map of contextual metadata related to the error
     record {|string[]...;|} context;
-    # Map of relevant links associated with the error response.
+    # Map of relevant links associated with the error response
     record {|string...;|} links;
-    # Unique identifier for the error instance.
+    # Unique identifier for the error instance
     string id?;
-    # High-level category classifying the type of error.
+    # High-level category classifying the type of error
     string category;
-    # Human-readable message describing the error.
+    # Human-readable message describing the error
     string message;
-    # List of detailed error entries associated with this error.
+    # List of detailed error entries associated with this error
     ErrorDetail[] errors;
-    # HTTP status code or status label for the error.
+    # HTTP status code or status label for the error
     string status;
 };
 
-# Paginated collection of associated object IDs.
+# Paginated collection of associated object IDs
 public type CollectionResponseAssociatedId record {
-    # Pagination metadata containing cursors for navigating to the next or previous page.
+    # Pagination metadata containing cursors for navigating to the next or previous page
     Paging paging?;
-    # Array of associated IDs returned in the response.
+    # Array of associated IDs returned in the response
     AssociatedId[] results;
 };
 
@@ -77,37 +77,37 @@ public type GetCrmV3ObjectsCompaniesCompanyIdGetByIdQueries record {
     string[] properties?;
 };
 
-# Defines association targets and types for a given object.
+# Defines association targets and types for a given object
 public type PublicAssociationsForObject record {
-    # List of association type specifications for the relationship.
+    # List of association type specifications for the relationship
     AssociationSpec[] types?;
-    # Represents a unique identifier for a public company object.
+    # Represents a unique identifier for a public company object
     PublicObjectId to?;
 };
 
-# Batch operation response containing results and execution timestamps.
+# Batch operation response containing results and execution timestamps
 public type BatchResponseSimplePublicObject record {
-    # Timestamp indicating when the batch operation completed.
+    # Timestamp indicating when the batch operation completed
     string completedAt;
-    # Timestamp indicating when the batch operation was requested.
+    # Timestamp indicating when the batch operation was requested
     string requestedAt?;
-    # Timestamp indicating when the batch operation began processing.
+    # Timestamp indicating when the batch operation began processing
     string startedAt;
-    # Map of additional links related to the batch response.
+    # Map of additional links related to the batch response
     record {|string...;|} links?;
-    # Array of company objects returned by the batch operation.
+    # Array of company objects returned by the batch operation
     SimplePublicObject[] results;
-    # Current status of the batch operation.
+    # Current status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# A group of filters combined to refine search query results.
+# A group of filters combined to refine search query results
 public type FilterGroup record {
-    # Array of filter conditions applied within this group.
+    # Array of filter conditions applied within this group
     Filter[] filters;
 };
 
-# Detailed information about a specific error encountered in a request.
+# Detailed information about a specific error encountered in a request
 public type ErrorDetail record {
     # A specific category that contains more specific detail about the error
     string subCategory?;
@@ -121,85 +121,85 @@ public type ErrorDetail record {
     string message;
 };
 
-# Pagination object providing a cursor for forward navigation through results.
+# Pagination object providing a cursor for forward navigation through results
 public type ForwardPaging record {
-    # Pagination cursor object used to retrieve the next page of results.
+    # Pagination cursor object used to retrieve the next page of results
     NextPage next?;
 };
 
-# A minimal object representation containing only a unique identifier.
+# A minimal object representation containing only a unique identifier
 public type SimplePublicObjectId record {
-    # The unique identifier of the object.
+    # The unique identifier of the object
     string id;
 };
 
-# Batch upsert response including results, status, timestamps, and any errors encountered.
+# Batch upsert response including results, status, timestamps, and any errors encountered
 public type BatchResponseSimplePublicUpsertObjectWithErrors record {
-    # Timestamp when the batch operation completed.
+    # Timestamp when the batch operation completed
     string completedAt;
-    # Total number of errors encountered during the batch operation.
+    # Total number of errors encountered during the batch operation
     int:Signed32 numErrors?;
-    # Timestamp when the batch operation was requested.
+    # Timestamp when the batch operation was requested
     string requestedAt?;
-    # Timestamp when the batch operation began processing.
+    # Timestamp when the batch operation began processing
     string startedAt;
-    # Map of relevant links associated with the batch response.
+    # Map of relevant links associated with the batch response
     record {|string...;|} links?;
-    # Array of upserted company objects returned by the batch operation.
+    # Array of upserted company objects returned by the batch operation
     SimplePublicUpsertObject[] results;
-    # Array of errors encountered for individual records in the batch.
+    # Array of errors encountered for individual records in the batch
     StandardError[] errors?;
-    # Current status of the batch upsert operation.
+    # Current status of the batch upsert operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# Input schema for a batch read request, specifying object IDs and properties to retrieve.
+# Input schema for a batch read request, specifying object IDs and properties to retrieve
 public type BatchReadInputSimplePublicObjectId record {
-    # List of properties for which historical values should be returned.
+    # List of properties for which historical values should be returned
     string[] propertiesWithHistory;
-    # The property to use as the unique identifier for lookup.
+    # The property to use as the unique identifier for lookup
     string idProperty?;
-    # Array of object IDs to retrieve in the batch read.
+    # Array of object IDs to retrieve in the batch read
     SimplePublicObjectId[] inputs;
-    # List of property names to include in the response.
+    # List of property names to include in the response
     string[] properties;
 };
 
-# Batch response containing upserted company objects with processing status and timestamps.
+# Batch response containing upserted company objects with processing status and timestamps
 public type BatchResponseSimplePublicUpsertObject record {
-    # Datetime when the batch operation completed.
+    # Datetime when the batch operation completed
     string completedAt;
-    # Datetime when the batch operation was requested.
+    # Datetime when the batch operation was requested
     string requestedAt?;
-    # Datetime when the batch operation began processing.
+    # Datetime when the batch operation began processing
     string startedAt;
-    # Map of relevant links associated with the batch response.
+    # Map of relevant links associated with the batch response
     record {|string...;|} links?;
-    # Array of upserted company objects returned by the batch operation.
+    # Array of upserted company objects returned by the batch operation
     SimplePublicUpsertObject[] results;
-    # Current processing status of the batch operation.
+    # Current processing status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# A property value paired with its source metadata and the timestamp of last update.
+# A property value paired with its source metadata and the timestamp of last update
 public type ValueWithTimestamp record {
-    # Identifier of the source that set this value.
+    # Identifier of the source that set this value
     string sourceId?;
-    # The type of source that provided this value.
+    # The type of source that provided this value
     string sourceType;
-    # Human-readable label describing the value's source.
+    # Human-readable label describing the value's source
     string sourceLabel?;
-    # ID of the user who last updated this value.
+    # ID of the user who last updated this value
     int:Signed32 updatedByUserId?;
-    # The property value as a string.
+    # The property value as a string
     string value;
-    # Datetime when this value was last updated.
+    # Datetime when this value was last updated
     string timestamp;
 };
 
-# Input schema for a batch operation containing a list of company object IDs.
+# Input schema for a batch operation containing a list of company object IDs
 public type BatchInputSimplePublicObjectId record {
-    # Array of company object IDs to process in the batch.
+    # Array of company object IDs to process in the batch
     SimplePublicObjectId[] inputs;
 };
 
@@ -216,44 +216,44 @@ public type OAuth2RefreshTokenGrantConfig record {|
     string refreshUrl = "https://api.hubapi.com/oauth/v1/token";
 |};
 
-# Input schema for a batch upsert operation containing company objects to create or update.
+# Input schema for a batch upsert operation containing company objects to create or update
 public type BatchInputSimplePublicObjectBatchInputUpsert record {
-    # Array of company records to upsert in the batch operation.
+    # Array of company records to upsert in the batch operation
     SimplePublicObjectBatchInputUpsert[] inputs;
 };
 
-# A paginated collection of company records with a total count and forward paging cursor.
+# A paginated collection of company records with a total count and forward paging cursor
 public type CollectionResponseWithTotalSimplePublicObjectForwardPaging record {
-    # Total number of company records matching the request.
+    # Total number of company records matching the request
     int:Signed32 total;
-    # Pagination object providing a cursor for forward navigation through results.
+    # Pagination object providing a cursor for forward navigation through results
     ForwardPaging paging?;
-    # Array of company records returned in the current page.
+    # Array of company records returned in the current page
     SimplePublicObject[] results;
 };
 
-# Represents a single company record with its properties, timestamps, and archival status.
+# Represents a single company record with its properties, timestamps, and archival status
 public type SimplePublicObject record {
-    # Timestamp when the company record was created.
+    # Timestamp when the company record was created
     string createdAt;
-    # Indicates whether the company record is archived.
+    # Indicates whether the company record is archived
     boolean archived?;
-    # Timestamp when the company record was archived.
+    # Timestamp when the company record was archived
     string archivedAt?;
-    # Map of property names to their historical values with timestamps.
+    # Map of property names to their historical values with timestamps
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
-    # The unique identifier of the company record.
+    # The unique identifier of the company record
     string id;
-    # Map of property names to their current values for the company.
+    # Map of property names to their current values for the company
     record {|string?...;|} properties;
-    # Timestamp when the company record was last updated.
+    # Timestamp when the company record was last updated
     string updatedAt;
 };
 
-# Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
+# Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint
 @display {label: "Connection Config"}
 public type ConnectionConfig record {|
-    # Provides Auth configurations needed when communicating with a remote HTTP endpoint.
+    # Provides Auth configurations needed when communicating with a remote HTTP endpoint
     http:BearerTokenConfig|OAuth2RefreshTokenGrantConfig|ApiKeysConfig auth;
     # The HTTP version understood by the client
     http:HttpVersion httpVersion = http:HTTP_2_0;
@@ -290,13 +290,13 @@ public type ConnectionConfig record {|
     # Enables the inbound payload validation functionality which provided by the constraint package. Enabled by default
     boolean validation = true;
     # Enables relaxed data binding on the client side. When enabled, `nil` values are treated as optional, 
-    # and absent fields are handled as `nilable` types. Enabled by default.
+    # and absent fields are handled as `nilable` types. Enabled by default
     boolean laxDataBinding = true;
 |};
 
-# Represents a unique identifier for a public company object.
+# Represents a unique identifier for a public company object
 public type PublicObjectId record {
-    # The unique identifier string of the company object.
+    # The unique identifier string of the company object
     string id?;
 };
 
@@ -306,208 +306,208 @@ public type PostCrmV3ObjectsCompaniesBatchReadReadQueries record {
     boolean archived = false;
 };
 
-# Pagination metadata containing cursors for navigating to the next or previous page.
+# Pagination metadata containing cursors for navigating to the next or previous page
 public type Paging record {
-    # Pagination cursor object used to retrieve the next page of results.
+    # Pagination cursor object used to retrieve the next page of results
     NextPage next?;
-    # Pagination cursor reference pointing to the previous page of results.
+    # Pagination cursor reference pointing to the previous page of results
     PreviousPage prev?;
 };
 
-# Request payload for searching company records with filters, sorting, and pagination.
+# Request payload for searching company records with filters, sorting, and pagination
 public type PublicObjectSearchRequest record {
-    # Full-text search query string to match against company records.
+    # Full-text search query string to match against company records
     string query?;
-    # Maximum number of results to return in the response.
+    # Maximum number of results to return in the response
     int:Signed32 'limit?;
-    # Cursor token for retrieving the next page of results.
+    # Cursor token for retrieving the next page of results
     string after?;
-    # List of property names to sort results by.
+    # List of property names to sort results by
     string[] sorts?;
-    # List of property names to include in the response.
+    # List of property names to include in the response
     string[] properties?;
-    # Groups of filters used to narrow search results.
+    # Groups of filters used to narrow search results
     FilterGroup[] filterGroups?;
 };
 
-# Input payload for upserting a single company record in a batch operation, including its ID and properties.
+# Input payload for upserting a single company record in a batch operation, including its ID and properties
 public type SimplePublicObjectBatchInputUpsert record {
-    # The property name used as the unique identifier for the upsert.
+    # The property name used as the unique identifier for the upsert
     string idProperty?;
-    # Trace identifier for tracking the write operation.
+    # Trace identifier for tracking the write operation
     string objectWriteTraceId?;
-    # The unique identifier of the company record to upsert.
+    # The unique identifier of the company record to upsert
     string id;
-    # Key-value map of company property names and their values.
+    # Key-value map of company property names and their values
     record {|string...;|} properties;
 };
 
-# Batch operation response containing company results, processing status, timestamps, and any errors encountered.
+# Batch operation response containing company results, processing status, timestamps, and any errors encountered
 public type BatchResponseSimplePublicObjectWithErrors record {
-    # Timestamp indicating when the batch operation completed.
+    # Timestamp indicating when the batch operation completed
     string completedAt;
-    # Total number of errors encountered during the batch operation.
+    # Total number of errors encountered during the batch operation
     int:Signed32 numErrors?;
-    # Timestamp indicating when the batch operation was requested.
+    # Timestamp indicating when the batch operation was requested
     string requestedAt?;
-    # Timestamp indicating when the batch operation started processing.
+    # Timestamp indicating when the batch operation started processing
     string startedAt;
-    # Map of relevant link names to their associated URIs.
+    # Map of relevant link names to their associated URIs
     record {|string...;|} links?;
-    # List of successfully processed company objects from the batch.
+    # List of successfully processed company objects from the batch
     SimplePublicObject[] results;
-    # List of errors encountered for individual records in the batch.
+    # List of errors encountered for individual records in the batch
     StandardError[] errors?;
-    # Current processing status of the batch operation.
+    # Current processing status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# Input payload for creating or updating a company object with its properties.
+# Input payload for creating or updating a company object with its properties
 public type SimplePublicObjectInput record {
-    # Trace identifier for tracking the write operation.
+    # Trace identifier for tracking the write operation
     string objectWriteTraceId?;
-    # Key-value map of company property names and their values.
+    # Key-value map of company property names and their values
     record {|string...;|} properties;
 };
 
-# Paginated collection of company objects including their associations.
+# Paginated collection of company objects including their associations
 public type CollectionResponseSimplePublicObjectWithAssociationsForwardPaging record {
-    # Pagination object providing a cursor for forward navigation through results.
+    # Pagination object providing a cursor for forward navigation through results
     ForwardPaging paging?;
-    # Array of company objects returned in the current page.
+    # Array of company objects returned in the current page
     SimplePublicObjectWithAssociations[] results;
 };
 
-# Input payload specifying the two company records to merge.
+# Input payload specifying the two company records to merge
 public type PublicMergeInput record {
-    # ID of the secondary company to be merged and removed.
+    # ID of the secondary company to be merged and removed
     string objectIdToMerge;
-    # ID of the primary company that will be retained after merge.
+    # ID of the primary company that will be retained after merge
     string primaryObjectId;
 };
 
-# Defines the category and type of an association between objects.
+# Defines the category and type of an association between objects
 public type AssociationSpec record {
-    # The category that defines the association's origin or ownership.
+    # The category that defines the association's origin or ownership
     "HUBSPOT_DEFINED"|"USER_DEFINED"|"INTEGRATOR_DEFINED" associationCategory?;
-    # Numeric identifier for the specific association type.
+    # Numeric identifier for the specific association type
     int:Signed32 associationTypeId?;
 };
 
-# A company object including its properties, associations, and timestamps.
+# A company object including its properties, associations, and timestamps
 public type SimplePublicObjectWithAssociations record {
-    # Map of associated object collections keyed by association type.
+    # Map of associated object collections keyed by association type
     record {|CollectionResponseAssociatedId...;|} associations?;
-    # Timestamp indicating when the company record was created.
+    # Timestamp indicating when the company record was created
     string createdAt;
-    # Indicates whether the company record is archived.
+    # Indicates whether the company record is archived
     boolean archived?;
-    # Timestamp indicating when the company record was archived.
+    # Timestamp indicating when the company record was archived
     string archivedAt?;
-    # Map of property names to their historical values with timestamps.
+    # Map of property names to their historical values with timestamps
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
-    # Unique identifier of the company record.
+    # Unique identifier of the company record
     string id;
-    # Key-value map of the company's current property values.
+    # Key-value map of the company's current property values
     record {|string?...;|} properties;
-    # Timestamp of the last update to the object.
+    # Timestamp of the last update to the object
     string updatedAt;
 };
 
-# Defines a filter condition used to query company records by property, operator, and value.
+# Defines a filter condition used to query company records by property, operator, and value
 public type Filter record {
-    # Upper bound value for BETWEEN range filter operations.
+    # Upper bound value for BETWEEN range filter operations
     string highValue?;
-    # The company property name to evaluate in the filter.
+    # The company property name to evaluate in the filter
     string propertyName;
-    # List of values used with IN or NOT_IN filter operators.
+    # List of values used with IN or NOT_IN filter operators
     string[] values?;
-    # The single value to compare against the specified property.
+    # The single value to compare against the specified property
     string value?;
-    # Comparison operator that defines how the property is evaluated against the value.
+    # Comparison operator that defines how the property is evaluated against the value
     "EQ"|"NEQ"|"LT"|"LTE"|"GT"|"GTE"|"BETWEEN"|"IN"|"NOT_IN"|"HAS_PROPERTY"|"NOT_HAS_PROPERTY"|"CONTAINS_TOKEN"|"NOT_CONTAINS_TOKEN" operator;
 };
 
-# Pagination cursor reference pointing to the previous page of results.
+# Pagination cursor reference pointing to the previous page of results
 public type PreviousPage record {
-    # Cursor token representing the start of the previous page.
+    # Cursor token representing the start of the previous page
     string before;
-    # Navigable URL link to the previous page of results.
+    # Navigable URL link to the previous page of results
     string link?;
 };
 
-# Wraps a collection of company creation inputs for batch processing.
+# Wraps a collection of company creation inputs for batch processing
 public type BatchInputSimplePublicObjectInputForCreate record {
-    # Array of company creation payloads to process in batch.
+    # Array of company creation payloads to process in batch
     SimplePublicObjectInputForCreate[] inputs;
 };
 
-# Wraps a collection of company update inputs for batch processing.
+# Wraps a collection of company update inputs for batch processing
 public type BatchInputSimplePublicObjectBatchInput record {
-    # Array of company property update payloads to process in batch.
+    # Array of company property update payloads to process in batch
     SimplePublicObjectBatchInput[] inputs;
 };
 
-# Represents a company record returned after an upsert operation, indicating whether it was newly created.
+# Represents a company record returned after an upsert operation, indicating whether it was newly created
 public type SimplePublicUpsertObject record {
-    # Timestamp when the company record was created.
+    # Timestamp when the company record was created
     string createdAt;
-    # Indicates whether the company record is archived.
+    # Indicates whether the company record is archived
     boolean archived?;
-    # Timestamp when the company record was archived.
+    # Timestamp when the company record was archived
     string archivedAt?;
-    # Indicates whether the record was created new during the upsert.
+    # Indicates whether the record was created new during the upsert
     boolean 'new;
-    # Map of property names to their historical values with timestamps.
+    # Map of property names to their historical values with timestamps
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
-    # Unique identifier of the upserted company object.
+    # Unique identifier of the upserted company object
     string id;
-    # Key-value map of company property names to their values.
+    # Key-value map of company property names to their values
     record {|string...;|} properties;
-    # Timestamp indicating when the company record was last updated.
+    # Timestamp indicating when the company record was last updated
     string updatedAt;
 };
 
-# Input payload for updating a single company in a batch operation, including its identifier and property values.
+# Input payload for updating a single company in a batch operation, including its identifier and property values
 public type SimplePublicObjectBatchInput record {
-    # Name of a unique property used to identify the company instead of the default record ID.
+    # Name of a unique property used to identify the company instead of the default record ID
     string idProperty?;
-    # Trace identifier for tracking the write operation.
+    # Trace identifier for tracking the write operation
     string objectWriteTraceId?;
-    # Unique identifier of the company record to update.
+    # Unique identifier of the company record to update
     string id;
-    # Key-value map of company property names to their updated values.
+    # Key-value map of company property names to their updated values
     record {|string...;|} properties;
 };
 
-# Pagination cursor object used to retrieve the next page of results.
+# Pagination cursor object used to retrieve the next page of results
 public type NextPage record {
-    # Relative URL to fetch the next page of results.
+    # Relative URL to fetch the next page of results
     string link?;
-    # Cursor token representing the position after the last returned result.
+    # Cursor token representing the position after the last returned result
     string after;
 };
 
-# Represents an associated object reference, defined by its ID and association type.
+# Represents an associated object reference, defined by its ID and association type
 public type AssociatedId record {
-    # Unique identifier of the associated object.
+    # Unique identifier of the associated object
     string id;
-    # Type label describing the nature of the association.
+    # Type label describing the nature of the association
     string 'type;
 };
 
-# Provides API key configurations needed when communicating with a remote HTTP endpoint.
+# Provides API key configurations needed when communicating with a remote HTTP endpoint
 public type ApiKeysConfig record {|
     string privateAppLegacy;
     string privateApp;
 |};
 
-# Input payload for creating a new company, including its properties and optional associations.
+# Input payload for creating a new company, including its properties and optional associations
 public type SimplePublicObjectInputForCreate record {
-    # List of associations linking the new company to other CRM objects.
+    # List of associations linking the new company to other CRM objects
     PublicAssociationsForObject[] associations?;
-    # Trace identifier for tracking the write operation.
+    # Trace identifier for tracking the write operation
     string objectWriteTraceId?;
-    # Key-value map of company property names to their initial values.
+    # Key-value map of company property names to their initial values
     record {|string...;|} properties;
 };
