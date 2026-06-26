@@ -175,14 +175,14 @@ companies:SimplePublicObjectInputForCreate newCompany = {
     associations: []
 };
 
-companies:SimplePublicObject response = check hubSpotCrmCompanies->/companies.post(newCompany);
+companies:SimplePublicObject response = check hubSpotCrmCompanies->/.post(newCompany);
 
 ```
 
 #### List companies
 
 ```ballerina
-companies:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging companies = check hubSpotCrmCompanies->/companies;
+companies:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging companies = check hubSpotCrmCompanies->/.get();
 
 ```
 
