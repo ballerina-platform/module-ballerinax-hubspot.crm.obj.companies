@@ -40,7 +40,7 @@ public function main() returns error? {
         },
         associations: []
     };
-    companies:SimplePublicObject|error companyJResponse = hubSpotCrmCompanies->/companies.post(companyJPayload);
+    companies:SimplePublicObject|error companyJResponse = hubSpotCrmCompanies->/.post(companyJPayload);
 
     string companyJId;
     if companyJResponse is companies:SimplePublicObject {
@@ -59,7 +59,7 @@ public function main() returns error? {
         },
         associations: []
     };
-    companies:SimplePublicObject|error companyKResponse = hubSpotCrmCompanies->/companies.post(companyKPayload);
+    companies:SimplePublicObject|error companyKResponse = hubSpotCrmCompanies->/.post(companyKPayload);
 
     string companyKId;
     if companyKResponse is companies:SimplePublicObject {
@@ -77,7 +77,7 @@ public function main() returns error? {
             "domain": "updatedcompanyj.com"
         }
     };
-    companies:SimplePublicObject|error updateResponse = hubSpotCrmCompanies->/companies/[companyJId].patch(companyJUpdatePayload);
+    companies:SimplePublicObject|error updateResponse = hubSpotCrmCompanies->/[companyJId].patch(companyJUpdatePayload);
 
     if updateResponse is companies:SimplePublicObject {
         io:println("Updated Company J with new name and domain.");
@@ -91,7 +91,7 @@ public function main() returns error? {
         objectIdToMerge: companyJId,
         primaryObjectId: companyKId
     };
-    companies:SimplePublicObject|error mergeResponse = hubSpotCrmCompanies->/companies/merge.post(mergePayload);
+    companies:SimplePublicObject|error mergeResponse = hubSpotCrmCompanies->/merge.post(mergePayload);
 
     if mergeResponse is companies:SimplePublicObject {
         io:println("Merged Company J into Company K. Final Company ID: ", mergeResponse.id);
