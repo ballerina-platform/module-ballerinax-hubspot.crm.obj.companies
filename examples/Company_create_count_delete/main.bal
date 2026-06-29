@@ -51,7 +51,7 @@ public function main() returns error? {
     };
 
     companies:BatchResponseSimplePublicObject|companies:BatchResponseSimplePublicObjectWithErrors|error createResponse =
-        hubSpotCrmCompanies->/companies/batch/create.post(createPayload);
+        hubSpotCrmCompanies->/batch/create.post(createPayload);
 
     string companyXId;
     string companyYId;
@@ -77,7 +77,7 @@ public function main() returns error? {
     };
 
     companies:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error getAllCompaniesResponse =
-        hubSpotCrmCompanies->/companies.get(queries = getQueries);
+        hubSpotCrmCompanies->/.get(queries = getQueries);
 
     if getAllCompaniesResponse is companies:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging {
         int initialCount = getAllCompaniesResponse.results.length();
@@ -88,7 +88,7 @@ public function main() returns error? {
     }
 
     // Step 3: Delete Company X
-    error? deleteResponse = hubSpotCrmCompanies->/companies/[companyXId].delete();
+    error? deleteResponse = hubSpotCrmCompanies->/[companyXId].delete();
 
     if deleteResponse is () {
         io:println("Deleted Company X with ID: ", companyXId);
@@ -98,7 +98,7 @@ public function main() returns error? {
     }
 
     // Step 4: Get All Companies and Print Count Again
-    getAllCompaniesResponse = hubSpotCrmCompanies->/companies.get(queries = getQueries);
+    getAllCompaniesResponse = hubSpotCrmCompanies->/.get(queries = getQueries);
 
     if getAllCompaniesResponse is companies:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging {
         int finalCount = getAllCompaniesResponse.results.length();

@@ -19,7 +19,7 @@ import ballerina/log;
 
 service on new http:Listener(9090) {
 
-    resource function get companies(string properties = "", string archived = "false", int:Signed32 'limit = 10) returns json|http:Response {
+    resource function get .(string properties = "", string archived = "false", int:Signed32 'limit = 10) returns json|http:Response {
         log:printInfo("Mock GET request received for companies with properties: " + properties + ", archived: " + archived);
         json mockedResponse = {
             "results": [
@@ -48,7 +48,7 @@ service on new http:Listener(9090) {
         return mockedResponse;
     }
 
-    resource function post companies/batch/read(@http:Payload BatchReadInputSimplePublicObjectId payload)
+    resource function post batch/read(@http:Payload BatchReadInputSimplePublicObjectId payload)
     returns json|http:Response {
 
         log:printInfo("Mock POST request received for batch read with payload: " + payload.toJson().toString());
@@ -94,7 +94,7 @@ service on new http:Listener(9090) {
         return mockedResponse;
     }
 
-    resource function post companies(@http:Payload SimplePublicObjectInputForCreate payload) returns json|http:Response {
+    resource function post .(@http:Payload SimplePublicObjectInputForCreate payload) returns json|http:Response {
         log:printInfo("Mock POST request received for company creation with payload: " + payload.toJson().toString());
 
         // Simulate a successful creation response with the same company data

@@ -19,7 +19,7 @@ import ballerina/os;
 import ballerina/test;
 
 final boolean isLiveServer = os:getEnv("IS_LIVE_SERVER") == "true";
-final string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects" : "http://localhost:9090";
+final string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/companies" : "http://localhost:9090";
 
 final string clientId = os:getEnv("HUBSPOT_CLIENT_ID");
 final string clientSecret = os:getEnv("HUBSPOT_CLIENT_SECRET");
@@ -48,7 +48,7 @@ isolated function initClient() returns Client|error {
     groups: ["live_tests", "mock_tests"]
 }
 isolated function testGetAllCompanies() returns error? {
-    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging companies = check hubSpotCrmCompanies->/companies;
+    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging companies = check hubSpotCrmCompanies->/.get();
     test:assertTrue(companies.results.length() > 0);
 };
 
@@ -65,7 +65,7 @@ isolated function testBatchRead() returns error? {
         properties: []
     };
 
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubSpotCrmCompanies->/companies/batch/read.post(payload);
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubSpotCrmCompanies->/batch/read.post(payload);
     test:assertTrue(response.results.length() > 0, "Expected non-zero amount of companies");
 }
 
@@ -86,7 +86,7 @@ isolated function testCreateCompanies() returns error? {
         associations: []
     };
 
-    SimplePublicObject response = check hubSpotCrmCompanies->/companies.post(payload);
+    SimplePublicObject response = check hubSpotCrmCompanies->/.post(payload);
     test:assertEquals(response.properties["name"], "Maga", "Expected company name to match");
 }
 
@@ -104,7 +104,7 @@ isolated function testGetCompanies() returns error? {
         properties: ["name", "domain", "hs_object_id"]
     };
 
-    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubSpotCrmCompanies->/companies.get(queries = queries);
+    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubSpotCrmCompanies->/.get(queries = queries);
     test:assertTrue(response.results.length() > 0, "Expected at least one company to be returned");
 }
 
@@ -122,7 +122,7 @@ isolated function testSearchCompany() returns error? {
         filterGroups: []
     };
 
-    CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubSpotCrmCompanies->/companies/search.post(payload);
+    CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubSpotCrmCompanies->/search.post(payload);
     test:assertTrue(response.results.length() > 0, "Expected at least one company to match the search criteria");
 
 }
@@ -139,7 +139,7 @@ isolated function testUpdateCompany() returns error? {
             "domain": "updateddomain.com"
         }
     };
-    SimplePublicObject response = check hubSpotCrmCompanies->/companies/[companyId].patch(payload);
+    SimplePublicObject response = check hubSpotCrmCompanies->/[companyId].patch(payload);
     test:assertEquals(response.properties["name"], "Updated TestCompany", "The company name was not updated correctly.");
     test:assertEquals(response.properties["domain"], "updateddomain.com", "The company domain was not updated correctly.");
 }
@@ -151,7 +151,7 @@ isolated function testUpdateCompany() returns error? {
 isolated function testGetCompanyById() returns error? {
     string companyId = "28228574530";
     GetCrmV3ObjectsCompaniesCompanyIdGetByIdQueries queries = {};
-    SimplePublicObjectWithAssociations response = check hubSpotCrmCompanies->/companies/[companyId](queries = queries);
+    SimplePublicObjectWithAssociations response = check hubSpotCrmCompanies->/[companyId](queries = queries);
     test:assertTrue(response.id != "", "No company data was retrieved.");
 
 }
@@ -162,7 +162,7 @@ isolated function testGetCompanyById() returns error? {
 }
 isolated function testDeleteCompany() returns error? {
     string companyId = "28200512883"; // Replace with the actual company ID to be archived
-    _ = check hubSpotCrmCompanies->/companies/[companyId].delete();
+    _ = check hubSpotCrmCompanies->/[companyId].delete();
     test:assertTrue(true, "Company deleted successfully.");
 }
 
@@ -194,7 +194,7 @@ isolated function testBatchUpsert() returns error? {
         ]
     };
 
-    BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors response = check hubSpotCrmCompanies->/companies/batch/upsert.post(payload);
+    BatchResponseSimplePublicUpsertObject|BatchResponseSimplePublicUpsertObjectWithErrors response = check hubSpotCrmCompanies->/batch/upsert.post(payload);
     test:assertTrue(response.results.length() > 0,
             string `At least one company should be successfully upserted. Found: ${response.results.length()}`);
 
@@ -222,7 +222,7 @@ isolated function testBatchCreate() returns error? {
         ]
     };
 
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubSpotCrmCompanies->/companies/batch/create.post(payload);
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubSpotCrmCompanies->/batch/create.post(payload);
     test:assertTrue(response !is BatchResponseSimplePublicObjectWithErrors, "Batch creation should return a successful response.");
 }
 
@@ -249,7 +249,7 @@ isolated function testBatchUpdate() returns error? {
             }
         ]
     };
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubSpotCrmCompanies->/companies/batch/update.post(payload);
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubSpotCrmCompanies->/batch/update.post(payload);
     test:assertTrue(response !is BatchResponseSimplePublicObjectWithErrors, "Batch update should return a successful response.");
 }
 
@@ -264,6 +264,6 @@ isolated function testBatchArchive() returns error? {
             {id: "28152220570"}
         ]
     };
-    _ = check hubSpotCrmCompanies->/companies/batch/archive.post(payload);
+    _ = check hubSpotCrmCompanies->/batch/archive.post(payload);
     test:assertTrue(true, "Batch archive should return a successful response.");
 }
